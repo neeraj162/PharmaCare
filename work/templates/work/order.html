@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORDER</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="node_modules/bootstrap-social/bootstrap-social.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+        integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript"></script>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark navbar-expand-sm fixed-top">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-toggler="collapse" data-target="#Navbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-header">
+                <span class="navbar-brand mb-0 h1">Hello, {{user}}</span>
+            </div>
+            <a href="{% url 'Logout' %}" class="btn btn-warning">Logout</a>
+        </div>
+        </div>
+    </nav><br><br><br><br>
+    <div class="container">
+        <h2>Cart</h2>
+        <table class="table table-bordered table-hover" id="myTable" style="border-width: 4px;">
+            <thead>
+                <tr>
+                    <th>Medicine name</th>
+                    <th>mg</th>
+                    <th>Quantity(units)</th>
+                    <th>Price</th>
+
+                </tr>
+            </thead>
+            <tbody style="font-size: 15px;">
+                {% for med in data %}
+                <tr>
+                    <td>{{med.name}}</td> 
+                    <td>{{med.mg}}</td>
+                    <td>{{med.qty}}</td>
+                    <td>₹{{med.price|floatformat:2}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <!-- <div class="text-center">
+            <a type="submit" class="btn btn-primary" href="/order">Order</a>
+        </div> -->
+        <h4>Total items: {{items}}</h4>
+        <h4>Total Cost: ₹{{total|floatformat:2}}</h4>
+        <a type="submit" class="btn btn-primary" href="/update">Pay</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Getmeds-Find your medicines</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no">
+    <meta http-equiv="x-ua-compitable" content="ig=edge">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="node_modules/bootstrap-social/bootstrap-social.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+        integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="/static/js/test.js"></script>
+<script type="text/javascript">
+    var user = '{{request.user}}'
+    function getToken(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getToken('csrftoken');
+</script>
+<style type="text/css">
+    @media only screen and (min-device-width: 400px) {
+        body {
+            background-size: cover;
+            height: 100%;
+            background-position: center 0;
+            background-repeat: no-repeat;
+            font-size: 15px;
+        }
+
+    }
+</style>
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-dark navbar-expand-sm fixed-top">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-toggler="collapse" data-target="#Navbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-header">
+                <span class="navbar-brand mb-0 h1">Hello, {{user}}</span>
+            </div>
+            <a href="{% url 'Logout' %}" class="btn btn-warning">Logout</a>
+        </div>
+        </div>
+
+
+    </nav><br><br><br><br>
+    <div class="container">
+
+            <div class="form-group">
+                <label>
+                    <h4>Enter medicine name:</h4>
+                </label>
+                <form class="d-flex">
+                    <input class="form-control me-2" id="myInput" type="text" placeholder="Search"
+                        onkeyup="searchfunc()">
+                </form>
+            </div>
+
+    </div><br><br>
+    <div class="container">
+        <form class="order" method="POST">
+            {% csrf_token %}
+            <h2>Medicines Available</h2>
+            <table class="table table-bordered table-hover" id="myTable" style="border-width: 4px;">
+                <thead>
+                    <tr>
+                        <th>Medicine ID</th>
+                        <th>Medicine name</th>
+                        <th>mg</th>
+                        <th>Available(units)</th>
+                        <th>Price</th>
+                        <th>Order</th>
+
+                    </tr>
+                </thead>
+                <tbody style="font-size: 15px;">
+                    {% for med in medicines %}
+                    <tr>
+                        <td>{{med.id}}</td>
+                        <td>{{med.name}}</td>
+                        <td>{{med.mg}}</td>
+                        <td>{{med.available}}</td>
+                        <td>₹{{med.price|floatformat:2}}</td>
+                        <td><input type="text" id="{{med.id}}" name="{{med.id}}"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <!-- <div class="text-center">
+                <a type="submit" class="btn btn-primary" href="/order">Order</a>
+            </div> -->
+           
+            <button type="submit" class="btn btn-primary" style="margin-bottom: 10px;">Order</button>
+        </form>
+    </div>
+</body>
+
+</html>
